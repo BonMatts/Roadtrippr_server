@@ -42,10 +42,13 @@ def db_search_collection(location)
 
   db.each do |record| 
     if record.include?(location)
-      return true
+      true
+    else
+      false
     end
   end
-end 
+end
+
 
 db_search_collection("Lake Charles, LA")
 
