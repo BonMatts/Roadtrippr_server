@@ -3,7 +3,8 @@ require 'mongo'
 require 'uri'
 require 'json'
 require 'dotenv'
-Dotenv.load
+require 'bson'
+# Dotenv.load
 
 # db = mongo_client.db("app16243887")
 # db = MongoClient.new #("paulo.mongohq.com", 10029).db("app16243887")
@@ -42,9 +43,9 @@ def db_search_collection(location)
 
   db.each do |record| 
     if record.include?(location)
-      true
+      record
     else
-      false
+      nil
     end
   end
 end
