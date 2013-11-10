@@ -2,13 +2,11 @@ require 'rubygems'
 require 'mongo'
 require 'uri'
 require 'json'
-#require 'info'
-
-
+require 'dotenv'
+Dotenv.load
 
 # db = mongo_client.db("app16243887")
 # db = MongoClient.new #("paulo.mongohq.com", 10029).db("app16243887")
-
 # puts db
 
 def get_connection
@@ -20,10 +18,10 @@ def get_connection
   @db_connection
 end
 
-
+# Return an array of hashes. Each hash is a record in the Mongo DB, daytrippr
 def return_collection
   trippr_array = []
-  db = get_connection
+  db = get_connection()
   collections = db.collection_names()
   last_collection = collections[-1]
   coll = db.collection(last_collection)
@@ -36,18 +34,27 @@ def return_collection
 
   # once all collections are added return the trippr_array
   return trippr_array
-
-  # trippr_array.each do |collection|
-  #   puts collection
-  # end
 end
+
+# Based on a location, return the entire record a location is contained within
+def db_search_collection(location)
+   db = return_collection()
+
+  db.each do |record| 
+    if record.include?(location)
+      return true
+    end
+  end
+end 
+
+db_search_collection("Lake Charles, LA")
+
+# Below is an example value to search for in db_search_collection
+# {"_id":{"$oid": "527f06d6584b2141453d2197"},"Name of Town/Location":"Lake Charles, LA","Coordinates":"30.235341,-93.190956"}
 
 def add_to_collection(new_record = {})
   #new_record.each |key, value|
-
   id = @daytrippr.insert('#{new_record}')
-
-  #{"_id":
-  #{"$oid": "527f06d6584b2141453d21aa"},"Name of Town/Location":"New Orleans, LA","Coordinates":"29.951365,-90.076332"}
+  
 end
 
