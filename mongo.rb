@@ -15,7 +15,7 @@ def get_connection
   @db_connection
 end
 
-# Return an array of hashes. Each hash is a record in the Mongo DB, daytrippr
+# Return an array of hashes. Each hash is a record in Mongo DB, daytrippr
 def return_collection
   trippr_array = []
   db = get_connection()
@@ -26,14 +26,14 @@ def return_collection
   # return each collection and add it to docs
   docs = coll.find()  
 
-  # add each collection to the trippr_array 
+  # add each record to the trippr_array 
   docs.each{ |doc| trippr_array << doc.to_json }
 
   # once all collections are added return the trippr_array
   return trippr_array
 end
 
-# Based on a location, return the entire record a location is contained within
+# Given location, if it's present, return true
 def db_search_collection(location)
   db = return_collection()
 
@@ -46,6 +46,7 @@ def db_search_collection(location)
   end
 end
 
+ 
 def add_to_collection(new_record = {})
   #new_record.each |key, value|
   id = @daytrippr.insert('#{new_record}')  
