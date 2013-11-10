@@ -6,10 +6,11 @@ require 'wikiwhat'
 class Location
   attr_reader :title, :content, :image
   
-  def initialize(title)
+  def initialize(title, coordinates)
     @title = title
+    @coordinates = coordinates
     @content
-    @image
+    @image 
   end
 
 

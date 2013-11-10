@@ -3,11 +3,12 @@ require 'json'
 require 'open-uri'
 
 class List
-  attr_reader :places, :contents
+  #todo add distance to place from current location
+  attr_reader :locations, :contents
 
   def initialize(array)
 
-    @places = []
+    @locations = []
     @contents ={}
 
     @locations = ["30.26737,-97.746162"]
@@ -34,40 +35,26 @@ class List
     @nearby["query"]["geosearch"].each do |x|
       x.each_pair do |key, value|
         if key == "title" && !@places.include?(value)
-          @places<<value
+          @locations<<value
         end
       end
     end
-    puts "places found!"
-    @places
+    puts "locations found!"
+    @locations
   end
 
   def get_info
-    @places.each do |place|
-      @call = URI::encode("http://en.wikipedia.org/w/api.php?action=query&prop=extracts&titles=#{place}&redirects&format=json")
-      @content =JSON.parse(RestClient.get(@call))
-      @content = pull_from_hash(@content, "extract")
-      puts "found some content for #{place}"
-      @contents["#{place}"] = @content
+    @locations.each do |place|
+      # if place is in db 
+      #   pull from db 
+      # else 
+      #place
+      # send to db, 
     end
   end
 end
 
 
 
-def pull_from_hash(hash, key)
-  @hash = hash
-  @key = key
-  puts "in the loop"
 
-  if @hash.include?(@key)
-    @result = @hash[@key]
-  else
-    @hash.each_pair do |k, v|
-      if v.class == Hash
-        pull_from_hash(v, @key)
-      end
-    end
-    @result
-  end
-end
+
