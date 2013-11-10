@@ -19,4 +19,4 @@ def get_connection
   puts db_name
 end
 
-get_connection()
+puts 'hello'
